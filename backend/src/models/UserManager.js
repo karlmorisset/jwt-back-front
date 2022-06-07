@@ -10,6 +10,10 @@ class UserManager extends AbstractManager {
     );
   }
 
+  findAll() {
+    return this.connection.query(`select id, email, role from  ${this.table}`);
+  }
+
   insert(user) {
     return this.connection.query(
       `insert into ${UserManager.table} (email, password, role) values (?, ?, ?)`,

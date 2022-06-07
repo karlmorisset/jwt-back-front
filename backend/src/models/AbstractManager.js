@@ -11,7 +11,7 @@ class AbstractManager {
   }
 
   findAll() {
-    return this.connection.query(`select id, email, role from  ${this.table}`);
+    return this.connection.query(`select * from  ${this.table}`);
   }
 
   delete(id) {
