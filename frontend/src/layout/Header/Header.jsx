@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import AuthContext from '../../contexts/AuthContext'
+import AuthContext from '../../contexts/AuthContextProvider'
 
 import "./Header.css"
 
 export default function Header() {
-  const {loggedUser} = useContext(AuthContext)
+  const {loggedUser, logout} = useContext(AuthContext);
+
   return (
     <nav id="header">
       <ul>
@@ -21,17 +22,18 @@ export default function Header() {
           <li>Login</li>
         </Link>
 
-        <Link to='/users'>
-          <li>Users</li>
+        <Link to='/admin'>
+          <li>Admin</li>
         </Link>
-
-        {
-        loggedUser &&
-          <li>
-            <Link to='/logout'>Disconnect</Link>
-          </li>
-        }
       </ul>
+
+      {
+        loggedUser &&
+          <form onSubmit={logout}>
+            <button className="logout" type="submit">Disconnect</button>
+          </form>
+      }
     </nav>
+
   )
 }

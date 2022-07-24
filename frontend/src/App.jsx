@@ -1,18 +1,13 @@
-import { useState } from "react";
-import AuthContext from "./contexts/AuthContext";
 import Header from "./layout/Header/Header";
 import Pages from "./pages/Pages";
+import Footer from "./layout/Footer/Footer";
+import {AuthContextProvider} from "./contexts/AuthContextProvider";
 
 import './App.css'
-import Footer from "./layout/Footer/Footer";
 
 function App() {
-  const [loggedUser, setLoggedUser] = useState()
-
-  console.log(document.cookie);
-
   return (
-    <AuthContext.Provider value={{loggedUser, setLoggedUser}}>
+    <AuthContextProvider>
       <div className='app'>
         <Header />
 
@@ -22,7 +17,7 @@ function App() {
 
         <Footer />
       </div>
-    </AuthContext.Provider>
+    </AuthContextProvider>
   );
 }
 

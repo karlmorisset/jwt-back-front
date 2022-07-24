@@ -68,6 +68,20 @@ class UserController {
     }
   };
 
+  static isLogged = (req, res) => {
+      const token = req.cookies.access_token;
+
+      if (!token) {
+        return res.sendStatus(401);
+      }
+      try {
+        const user = jwt.verify(token, process.env.JWT_AUTH_SECRET);
+        return res.status(200).json({id: user.id, email: user.email, role: user.role})
+      } catch {
+        return res.sendStatus(401);
+      }
+  }
+
   static login = (req, res) => {
     const { email, password } = req.body;
 
@@ -94,7 +108,7 @@ class UserController {
             res.status(403).send({error : "Email ou mot de passe incorrect"})
           }
 
-          const token = jwt.sign({ id: id, role: role },
+          const token = jwt.sign({ id: id, email: email, role: role },
             process.env.JWT_AUTH_SECRET,
             {
               expiresIn: "1h",
@@ -120,7 +134,7 @@ class UserController {
     models.user
       .findAll()
       .then(([rows]) => {
-        res.status(200).send(rows)
+        return res.status(200).json(rows)
       })
       .catch((err) => {
         console.error(err);

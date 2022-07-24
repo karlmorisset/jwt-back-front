@@ -6,6 +6,7 @@ const isAdmin = require("./middleware/isAdmin");
 const router = express.Router();
 
 // Routes Auth
+router.get("/users/is-logged", UserController.isLogged);
 router.post("/users/register", UserController.register);
 router.post("/users/login", UserController.login);
 router.post("/users/logout", authorization, UserController.logout);

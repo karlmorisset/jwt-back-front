@@ -1,7 +1,10 @@
+const jwt = require('jsonwebtoken');
+
 const authorization = (req, res, next) => {
     const token = req.cookies.access_token;
+
     if (!token) {
-      return res.sendStatus(401);
+      return res.status(401).send("Token invalide");
     }
     try {
       const data = jwt.verify(token, process.env.JWT_AUTH_SECRET);
@@ -10,7 +13,7 @@ const authorization = (req, res, next) => {
       req.userRole = data.role;
       next();
     } catch {
-      return res.sendStatus(401);
+      return res.status(401).send("Token invalide");
     }
 }
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from "../../contexts/AuthContextProvider";
 
 import "./Register.css";
 
@@ -17,14 +17,14 @@ function Register() {
   const [errors, setErrors] = useState()
   const navigate = useNavigate();
 
-  const handleChange = (e, field) => {
-    setUser({...user, [field]: e.target.value})
+  const handleChange = (e) => {
+    setUser({...user, [e.target.name]: e.target.value})
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {...user})
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, user)
       .then(({data}) => navigate("/login"))
       .catch(({response}) => setErrors(response.data))
   }
@@ -40,7 +40,7 @@ function Register() {
             id="email"
             name="email"
             value={user.email}
-            onChange={(e) => handleChange(e, "email")}
+            onChange={handleChange}
           />
           {errors?.email && <span className="error">{errors.email}</span>}
         </label>
@@ -52,7 +52,7 @@ function Register() {
             id="password"
             name="password"
             value={user.password}
-            onChange={(e) => handleChange(e, "password")}
+            onChange={handleChange}
           />
           {errors?.password && <span className="error">{errors.password}</span>}
         </label>
@@ -64,7 +64,7 @@ function Register() {
             id="password_confirmation"
             name="password_confirmation"
             value={user.password_confirmation}
-            onChange={(e) => handleChange(e, "password_confirmation")}
+            onChange={handleChange}
           />
           {errors?.password_confirmation && <span className="error">{errors.password_confirmation}</span>}
         </label>
@@ -75,7 +75,7 @@ function Register() {
             name="role"
             id="role"
             value={user.role}
-            onChange={(e) => handleChange(e, "role")}
+            onChange={handleChange}
           >
             <option value="ROLE_USER">Utilisateur ordinaire</option>
             <option value="ROLE_ADMIN">Administrateur</option>

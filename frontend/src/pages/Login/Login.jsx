@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from "../../contexts/AuthContextProvider";
 
 import "./Login.css";
 
@@ -32,8 +32,11 @@ function Login() {
         withCredentials: true,
       })
       .then(({data}) => {
-        setLoggedUser(data)
-        // navigate('/users')
+        setLoggedUser({
+          status: true,
+          user: data
+        })
+        navigate('/admin')
       })
       .catch(({response}) => console.error(response.data))
   }

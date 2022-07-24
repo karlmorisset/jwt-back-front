@@ -1,7 +1,7 @@
 function formatErrors(rawErrors) {
   const errors = {}
 
-  rawErrors.details.forEach((d) => {
+  rawErrors?.details.forEach((d) => {
     errors[d.context.label] = d.message
   })
 

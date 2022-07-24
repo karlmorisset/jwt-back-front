@@ -2,6 +2,7 @@
   height: 100px;
   box-shadow: 0 0 4px #555;
   border: none;
+  display: flex;
 }
 
 
@@ -20,15 +21,30 @@
   cursor: pointer;
 }
 
+.logout{
+  margin: 0;
+  padding:30px;
+  background-color: white;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #555;
+  cursor: pointer;
+  height: 100%;
+}
+
+#header .logout:hover{
+  background-color: #555;
+  color: white;
+}
+
 #header ul a {
   color: #555;
   text-decoration: none;
 }
 
-#header ul a li:hover {
+#header ul a li:hover, #header ul li:hover {
   background-color: #555;
-}
-
-#header ul a li:hover{
   color: white;
 }

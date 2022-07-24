@@ -5,8 +5,6 @@ const cors = require("cors");
 
 const app = express();
 
-console.log(process.env.FRONTEND_URL);
-
 app.use(cookieParser());
 
 app.use(
