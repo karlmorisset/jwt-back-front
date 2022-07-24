@@ -1,33 +1,28 @@
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import Users from "./pages/Users";
-import Login from "./pages/Login";
-import Logout from "./pages/Logout";
+import { useState } from "react";
+import AuthContext from "./contexts/AuthContext";
+import Header from "./layout/Header/Header";
+import Pages from "./pages/Pages";
+
+import './App.css'
+import Footer from "./layout/Footer/Footer";
 
 function App() {
-  return (
-    <Router>
-      <div className='app'>
-        <nav>
-          <ul>
-            <li>
-              <Link to='/login'>Login</Link>
-            </li>
-            <li>
-              <Link to='/users'>Users</Link>
-            </li>
-            <li>
-              <Link to='/logout'>Disconnect</Link>
-            </li>
-          </ul>
-        </nav>
+  const [loggedUser, setLoggedUser] = useState()
 
-        <Routes>
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/users' element={<Users />} />
-          <Route exact path='/logout' element={<Logout />} />
-        </Routes>
+  console.log(document.cookie);
+
+  return (
+    <AuthContext.Provider value={{loggedUser, setLoggedUser}}>
+      <div className='app'>
+        <Header />
+
+        <main className="container">
+          <Pages />
+        </main>
+
+        <Footer />
       </div>
-    </Router>
+    </AuthContext.Provider>
   );
 }
 

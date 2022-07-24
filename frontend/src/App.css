@@ -1,56 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+  box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  height: 600px;
   min-height: 100vh;
+}
+
+body, html, ul, li, h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+#root, main.container, .app{
+  height: 100%;
+}
+
+input, textarea, select, option{
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  height: 35px;
+  margin-top: 5px;
+}
+
+label {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-weight: 700;
+}
+
+input[type=submit]:hover {
   color: white;
+  background-color: #555;
 }
 
-.App-link {
-  color: #61dafb;
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 8px;
+  width: 400px;
+  gap: 20px
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.formulaire h1{
+  font-size: 1.5rem;
 }
 
-button {
-  font-size: calc(10px + 2vmin);
+.formulaire .error{
+  font-size: 0.8rem;
+  color: red;
+  font-weight: normal;
+}
+
+
+.app{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+ul {
+  list-style-type: none;
 }

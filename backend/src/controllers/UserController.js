@@ -1,7 +1,8 @@
 const models = require("../models");
 const argon2 = require("argon2")
 const Joi = require("joi")
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const formatErrors = require("../services/formatErrors");
 
 class UserController {
   static hashingOptions = {
@@ -12,24 +13,36 @@ class UserController {
   };
 
   static register = async (req, res) => {
-    const { email, password, role } = req.body
+    const { email, password, password_confirmation, role } = req.body
 
     const [result] = await models.user.findByMail(email)
 
+    const rules = Joi.object({
+      email: Joi.string().email().max(255).required(),
+      password: Joi.string().max(4).required(),
+      password_confirmation: Joi.any().equal(Joi.ref('password')).required(),
+      role: Joi.string().valid('ROLE_USER','ROLE_ADMIN').max(255)
+    });
+
+    const { error: validationErrors, value } = rules.validate({
+        email,
+        password,
+        password_confirmation,
+        role
+      },
+      {abortEarly: false}
+    )
+
+    let formatedErrors = formatErrors(validationErrors)
+
     if (result.length) {
-      res.status(409).send({
-        error: "Cet email existe déjà",
-      })
+      formatedErrors = {...formatedErrors, email: "Cet email existe déjà"}
+
+      return res.status(409).send(formatedErrors)
     }
 
-    const validationErrors = Joi.object({
-      email: Joi.string().email().max(255).required(),
-      password: Joi.string().max(255).required(),
-      role: Joi.string().valid('ROLE_USER','ROLE_ADMIN').max(255),
-    }).validate({email, password, role}).error
-
     if (validationErrors) {
-      res.status(422).send(validationErrors)
+      return res.status(422).send(formatedErrors)
     }
 
     try {
@@ -120,30 +133,6 @@ class UserController {
   static logout = (req, res) => {
     res.clearCookie('access_token')
     res.sendStatus(200)
-  };
-
-
-  static authorization = (req, res, next) => {
-    const token = req.cookies.access_token;
-    if (!token) {
-      return res.sendStatus(401);
-    }
-    try {
-      const data = jwt.verify(token, process.env.JWT_AUTH_SECRET);
-
-      req.userId = data.id;
-      req.userRole = data.role;
-      return next();
-    } catch {
-      return res.sendStatus(401);
-    }
-  };
-
-  static isAdmin = (req, res, next) => {
-    if (req.userRole !== 'ROLE_ADMIN') {
-      res.sendStatus(401)
-    }
-    next();
   };
 
   static edit = (req, res) => {
